@@ -1,6 +1,10 @@
 name: Python package
 
-on: [push]
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
 
 jobs:
   build:
@@ -28,9 +32,4 @@ jobs:
       with:
         pre-build-command: "pip install -r requirements_dev.txt"
         docs-folder: "docs/"
-    - uses: actions/upload-artifact@v1
-      with:
-        name: Documentation
-        path: docs/_build/html/
-    
-    
+
