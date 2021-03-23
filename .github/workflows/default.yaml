@@ -1,4 +1,4 @@
-name: Package and Generate Docs
+name: Build and Test
 
 on:
   push:
@@ -35,32 +35,3 @@ jobs:
         env_vars: OS,PYTHON
         fail_ci_if_error: true
         verbose: true
-
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        pre-build-command: "pip install -r requirements_dev.txt"
-        docs-folder: "docs/"
-
-    - uses: actions/upload-artifact@v1
-      with:
-        name: Documentation
-        path: docs/_build/html/
-
-    - name: Commit Docs to GH Pages
-      run: |
-        git clone https://github.com/ramiawar/fastabm.git --branch gh-pages --single-branch gh-pages
-        cp -r docs/_build/html/* gh-pages/
-        cd gh-pages
-        touch .nojekyll
-        git config --local user.email "rami.awar.ra@gmail.com"
-        git config --local user.name "Rami Awar"
-        git add .
-        git commit -m "Update documentation" -a || true
-
-    - name: Push docs
-      uses: ad-m/github-push-action@master
-      with:
-        branch: gh-pages
-        directory: gh-pages
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-    
