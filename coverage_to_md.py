@@ -31,14 +31,17 @@ for i, name in enumerate(headers):
 
 # Build table body
 body = []
-start_index += 1
+start_index += 2
 stop_index += 1
 for line in lines[start_index:stop_index]:
     x = ["|"]
     for word in line.split():
+        if word[0] == "-":
+            break
         x.extend([word, "|"])
 
-    body.append(" ".join(x))
+    if len(x) > 1:
+        body.append(" ".join(x))
 
 table = [" ".join(header), " ".join(separator), *body]
 
