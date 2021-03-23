@@ -1,14 +1,16 @@
 name: Python package
 
 on:
-  pull_request:
+  push:
+    branches:
+      - dev
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.8]
 
     steps:
     - uses: actions/checkout@v2
@@ -35,9 +37,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         path: results.txt
-
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        pre-build-command: "pip install -r requirements_dev.txt"
-        docs-folder: "docs/"
 
