@@ -26,15 +26,6 @@ jobs:
     - name: Run tox
       run: |
         tox
-        tox -e coverage_report > results.txt
-        python coverage_to_md.py results.txt
-    - name: Coverage Comment
-      uses: machine-learning-apps/pr-comment@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        path: table.md
-
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
