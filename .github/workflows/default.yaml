@@ -1,0 +1,75 @@
+name: Package and Generate Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest tox
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
+    - name: Run tox
+      run: |
+        tox
+        tox -e coverage_report > results.txt
+        python coverage_to_md.py results.txt
+    - name: Coverage Comment
+      uses: machine-learning-apps/pr-comment@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        path: table.md
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./cov.xml
+        flags: unittests
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        verbose: true
+
+    - uses: ammaraskar/sphinx-action@master
+      with:
+        pre-build-command: "pip install -r requirements_dev.txt"
+        docs-folder: "docs/"
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Documentation
+        path: docs/_build/html/
+
+    - name: Commit Docs to GH Pages
+      run: |
+        git clone https://github.com/ramiawar/fastabm.git --branch gh-pages --single-branch gh-pages
+        cp -r docs/_build/html/* gh-pages/
+        cd gh-pages
+        touch .nojekyll
+        git config --local user.email "rami.awar.ra@gmail.com"
+        git config --local user.name "Rami Awar"
+        git add .
+        git commit -m "Update documentation" -a || true
+
+    - name: Push docs
+      uses: ad-m/github-push-action@master
+      with:
+        branch: gh-pages
+        directory: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    
