@@ -3,8 +3,8 @@ FastABM
 =======
 
 
-.. image:: https://img.shields.io/pypi/v/fastabm.svg
-        :target: https://pypi.python.org/pypi/fastabm
+[![Actions Status](https://github.com/ramiawar/fastabm/workflows/Package%20and%20Generate%20Docs/badge.svg)](https://github.com/ramiawar/fastabm/actions)
+
 
 .. image:: https://img.shields.io/travis/ramiawar/fastabm.svg
         :target: https://travis-ci.com/ramiawar/fastabm
