@@ -8,7 +8,7 @@ FastABM
 .. image:: https://github.com/RamiAwar/fastabm/actions/workflows/default.yaml/badge.svg
         :target: https://github.com/RamiAwar/fastabm/actions/workflows/default.yaml
 
-.. image:: https://img.shields.io/badge/docs-passing-success
+.. image:: https://github.com/RamiAwar/fastabm/actions/workflows/docs.yaml/badge.svg
         :target: https://ramiawar.github.io/fastabm/
 
 
