@@ -26,6 +26,15 @@ jobs:
     - name: Run tox
       run: |
         tox
+        tox -e coverage_report > results.txt
+
+    - name: Coverage Comment
+      uses: machine-learning-apps/pr-comment@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        path: results.txt
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
@@ -35,14 +44,17 @@ jobs:
         env_vars: OS,PYTHON
         fail_ci_if_error: true
         verbose: true
+
     - uses: ammaraskar/sphinx-action@master
       with:
         pre-build-command: "pip install -r requirements_dev.txt"
         docs-folder: "docs/"
+
     - uses: actions/upload-artifact@v1
       with:
         name: Documentation
         path: docs/_build/html/
+
     - name: Commit Docs to GH Pages
       run: |
         git clone https://github.com/ramiawar/fastabm.git --branch gh-pages --single-branch gh-pages
@@ -53,6 +65,7 @@ jobs:
         git config --local user.name "Rami Awar"
         git add .
         git commit -m "Update documentation" -a || true
+
     - name: Push docs
       uses: ad-m/github-push-action@master
       with:
