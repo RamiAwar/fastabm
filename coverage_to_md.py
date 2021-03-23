@@ -1,5 +1,7 @@
+import sys
+
 lines = None
-with open("test.txt") as f:
+with open(sys.argv[1]) as f:
     lines = f.readlines()
 
 # Find coverage
