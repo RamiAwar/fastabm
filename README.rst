@@ -14,13 +14,6 @@ FastABM
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
         :target: https://github.com/psf/black
 
-Agent-Based modelling framework wfocused on easy usage and fast performance.
 
+Agent-Based modelling framework focused on easy usage and fast performance.
 
-* Free software: MIT license
-
-
-Features
---------
-
-* TODO
