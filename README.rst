@@ -2,16 +2,17 @@
 FastABM
 =======
 
+.. image:: https://github.com/RamiAwar/fastabm/actions/workflows/default.yaml/badge.svg
+        :target: https://github.com/RamiAwar/fastabm/actions/workflows/default.yaml
 
-.. image:: https://img.shields.io/pypi/v/fastabm.svg
-        :target: https://pypi.python.org/pypi/fastabm
+.. image:: https://github.com/RamiAwar/fastabm/actions/workflows/docs.yaml/badge.svg
+        :target: https://ramiawar.github.io/fastabm/
 
-.. image:: https://img.shields.io/travis/ramiawar/fastabm.svg
-        :target: https://travis-ci.com/ramiawar/fastabm
+.. image:: https://img.shields.io/codecov/c/github/RamiAwar/fastabm
+        :target: https://app.codecov.io/gh/RamiAwar/fastabm
 
-.. image:: https://readthedocs.org/projects/fastabm/badge/?version=latest
-        :target: https://fastabm.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+        :target: https://github.com/psf/black
 
 Agent-Based modelling framework wfocused on easy usage and fast performance.
 
