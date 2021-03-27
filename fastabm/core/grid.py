@@ -1,11 +1,11 @@
-from typing import Tuple, Callable
+from typing import Callable, Tuple, Union
 
 
 class Grid:
     _four_neighbors = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     _eight_neighbors = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
 
-    def __init__(self, width: int, height: int, default_factory: Callable = int):
+    def __init__(self, width: int, height: int, default_factory: Callable = list):
         self.width = width
         self.height = height
         self.default_factory = default_factory
@@ -32,6 +32,7 @@ class Grid:
         # Copy rows but keep references
         grid = Grid(width, height)
         grid._dtype = type(iterable[0][0])
+        grid.default_factory = grid._dtype
         grid._cells = [row for row in iterable]
 
         return grid
@@ -50,7 +51,7 @@ class Grid:
                 yield (x_new, y_new)
 
     def get_neighbors(self, x, y, four=False, torus=True):
-        for row, col in self.get_neighborhood(x, y, four, torus):
+        for col, row in self.get_neighborhood(x, y, four, torus):
             if self._dtype == list:
                 yield from self._cells[row][col]
             else:
@@ -78,13 +79,13 @@ class Grid:
 
         return (to_x, to_y)
 
-    def __setitem__(self, args: Tuple[int, int], value):
+    def __setitem__(self, args: Tuple[Union[slice, int], Union[slice, int]], value):
         if not isinstance(args, tuple) or len(args) != 2:
             raise KeyError("Grid index must be a tuple [x, y]")
 
         self._cells[args[1]][args[0]] = value
 
-    def __getitem__(self, args: Tuple[int, int]):
+    def __getitem__(self, args: Tuple[Union[slice, int], Union[slice, int]]):
         if not isinstance(args, tuple) or len(args) != 2:
             raise KeyError("Grid index must be a tuple [x, y]")
 
@@ -94,10 +95,10 @@ class Grid:
         # Inner lists need manual slicing however
         # First check if first element is a list
         # Ex. [[0, 1, 2]] vs [0, 1, 2]
-        if isinstance(selected[0], list) and self._dtype != list:
+        if isinstance(args[1], slice):
             selected = [inner[args[0]] for inner in selected]
         else:
-            # Otherwise just slice
+            # Otherwise just slice or index
             selected = selected[args[0]]
 
         return selected

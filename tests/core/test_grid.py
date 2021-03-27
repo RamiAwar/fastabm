@@ -54,7 +54,6 @@ def test_grid_from_iterable():
 def test_grid_from_iterable_references_maintained():
     matrix = [[[1], [2]], [[3], [4]]]
     grid = Grid.from_iterable(matrix)
-    print(grid._cells)
 
     assert grid.width == 2
     assert grid.height == 2
@@ -63,6 +62,7 @@ def test_grid_from_iterable_references_maintained():
 
     # Modifying original element
     matrix[0][0].append(99)
+
     # Should reflect in grid
     assert grid[0, 0] == [1, 99]
 
@@ -141,12 +141,12 @@ def test_grid_get_4_neighborhood_no_torus():
 
 
 def test_grid_get_neighbors():
-    matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    matrix = [[1, 2, 3, 4], [4, 5, 6, 7], [7, 8, 9, 10], [11, 12, 13, 14]]
     grid = Grid.from_iterable(matrix)
 
-    neighbors = list(grid.get_neighbors(1, 1, four=True))
+    neighbors = list(grid.get_neighbors(0, 2, four=True))
 
-    assert set(neighbors) == set([2, 4, 6, 8])
+    assert set(neighbors) == set([8, 10, 4, 11])
 
 
 def test_grid_get_neighbors_iterables():
